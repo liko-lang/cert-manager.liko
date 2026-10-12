@@ -146,7 +146,7 @@
                         name: string
                     }
                     // name of the Azure environment (default AzurePublicCloud)
-                    environment?: "AzurePublicCloud" or "AzureChinaCloud" or "AzureGermanCloud" or "AzureUSGovernmentCloud"
+                    environment?: "AzurePublicCloud" | "AzureChinaCloud" | "AzureGermanCloud" | "AzureUSGovernmentCloud"
                     // name of the DNS zone that should be used
                     hostedZoneName?: string
                     // Auth: Azure Workload Identity or Azure Managed Service Identity:
@@ -182,7 +182,7 @@
                     //
                     // Support for Azure Private DNS zones is currently
                     // experimental and may change in future releases.
-                    zoneType?: "AzurePublicZone" or "AzurePrivateZone"
+                    zoneType?: "AzurePublicZone" | "AzurePrivateZone"
                 }
                 // Use the Google Cloud DNS API to manage DNS01 challenge records.
                 cloudDNS?: {
@@ -235,7 +235,7 @@
                 }
                 // CNAMEStrategy configures how the DNS01 provider should handle CNAME
                 // records when found in DNS zones.
-                cnameStrategy?: "None" or "Follow"
+                cnameStrategy?: "None" | "Follow"
                 // Use the DigitalOcean DNS API to manage DNS01 challenge records.
                 digitalocean?: {
                     // A reference to a specific 'key' within a Secret resource.
@@ -262,7 +262,7 @@
                     nameserver: string
                     // Protocol to use for dynamic DNS update queries. Valid values are
                     // (case-sensitive) ``TCP`` and ``UDP``; ``UDP`` (default).
-                    protocol?: "TCP" or "UDP"
+                    protocol?: "TCP" | "UDP"
                     // The TSIG Algorithm configured in the DNS supporting RFC2136. Used only
                     // when ``tsigSecretSecretRef`` and ``tsigKeyName`` are defined.
                     // Supported values are (case-insensitive): ``HMACMD5`` (default),
@@ -431,7 +431,7 @@
                         // Group must be explicitly set to "" (empty string).
                         //
                         // Support: Core
-                        group?: string or "gateway.networking.k8s.io"
+                        group?: string len <= 253 & =~ "^$|^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$" = "gateway.networking.k8s.io"
                         // Kind is kind of the referent.
                         //
                         // There are two kinds of parent resources with "Core" support:
@@ -440,11 +440,11 @@
                         // * Service (Mesh conformance profile, ClusterIP Services only)
                         //
                         // Support for other resources is Implementation-Specific.
-                        kind?: string or "Gateway"
+                        kind?: string len >= 1 & len <= 63 & =~ "^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$" = "Gateway"
                         // Name is the name of the referent.
                         //
                         // Support: Core
-                        name: string
+                        name: string len >= 1 & len <= 253
                         // Namespace is the namespace of the referent. When unspecified, this refers
                         // to the local namespace of the Route.
                         //
@@ -467,7 +467,7 @@
                         // </gateway:experimental:description>
                         //
                         // Support: Core
-                        namespace?: string
+                        namespace?: string len >= 1 & len <= 63 & =~ "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
                         // Port is the network port this Route targets. It can be interpreted
                         // differently based on the type of parent resource.
                         //
@@ -498,7 +498,7 @@
                         // the Route MUST be considered detached from the Gateway.
                         //
                         // Support: Extended
-                        port?: int
+                        port?: int >= 1 & <= 65535
                         // SectionName is the name of a section within the target resource. In the
                         // following resources, SectionName is interpreted as the following:
                         //
@@ -523,7 +523,7 @@
                         // Route MUST be considered detached from the Gateway.
                         //
                         // Support: Core
-                        sectionName?: string
+                        sectionName?: string len >= 1 & len <= 253 & =~ "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
                     }]
                     // Optional pod template used to configure the ACME challenge solver pods
                     // used for HTTP01 challenges.
@@ -1228,7 +1228,7 @@
                                 // almost certainly wrong.
                                 // More info:
                                 // https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                name?: string or ""
+                                name?: string = ""
                             }]
                             // NodeSelector is a selector which must be true for the pod to fit on a
                             // node.
@@ -2164,7 +2164,7 @@
                                 // almost certainly wrong.
                                 // More info:
                                 // https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                name?: string or ""
+                                name?: string = ""
                             }]
                             // NodeSelector is a selector which must be true for the pod to fit on a
                             // node.
@@ -2412,7 +2412,7 @@
         token: string
         // The type of ACME challenge this resource represents.
         // One of "HTTP-01" or "DNS-01".
-        type: "HTTP-01" or "DNS-01"
+        type: "HTTP-01" | "DNS-01"
         // The URL of the ACME Challenge resource for this challenge.
         // This can be used to lookup details about the status of this challenge.
         url: string
@@ -2445,7 +2445,7 @@
         reason?: string
         // Contains the current 'state' of the challenge.
         // If not set, the state of the challenge is unknown.
-        state?: "valid" or "ready" or "pending" or "processing" or "invalid" or "expired" or "errored"
+        state?: "valid" | "ready" | "pending" | "processing" | "invalid" | "expired" | "errored"
     }
 }
 
@@ -2558,7 +2558,7 @@
             // Encrypt's production endpoint).
             // If not set and 'identifier' is set, the state is assumed to be pending
             // and a Challenge will be created.
-            initialState?: "valid" or "ready" or "pending" or "processing" or "invalid" or "expired" or "errored"
+            initialState?: "valid" | "ready" | "pending" | "processing" | "invalid" | "expired" | "errored"
             // URL is the URL of the Authorization that must be completed
             url: string
             // Wildcard will be true if this authorization is for a wildcard DNS name.
@@ -2584,7 +2584,7 @@
         reason?: string
         // State contains the current state of this Order resource.
         // States 'success' and 'expired' are 'final'
-        state?: "valid" or "ready" or "pending" or "processing" or "invalid" or "expired" or "errored"
+        state?: "valid" | "ready" | "pending" | "processing" | "invalid" | "expired" | "errored"
         // URL of the Order.
         // This will initially be empty when the resource is first created.
         // The Order controller will populate this field when the Order is first processed.
